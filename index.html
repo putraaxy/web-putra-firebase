@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title id="site-title">Website Responsive Animasi — Siap Deploy</title>
+  <title id="site-title">Web PutraAXY</title>
+
+  <!-- Font modern -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header reveal">
     <div class="container header-inner">
-      <a class="brand" href="#" id="brand-name">MyWeb</a>
+      <a class="brand" id="brand-name" href="#">MyWeb</a>
       <button id="btnNav" class="nav-toggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu">
         <span class="hamburger"></span>
       </button>
-      <nav id="primaryNav" class="primary-nav" role="navigation">
+      <nav id="primaryNav" class="primary-nav" role="navigation" aria-expanded="false">
         <ul>
           <li><a href="#home">Home</a></li>
           <li><a href="#about">Tentang</a></li>
@@ -60,54 +64,85 @@
     <section id="contact" class="section reveal">
       <div class="container">
         <h2>Kontak</h2>
-        <p>Ingin modifikasi? Hubungi: <a href="mailto:contoh@email.com">contoh@email.com</a></p>
+        <p>Ingin modifikasi? Hubungi: <a id="email-link" href="mailto:contoh@email.com">contoh@email.com</a></p>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer reveal">
     <div class="container">
       <p id="footer-text">© 2025 MyWeb — Siap deploy</p>
       <p><small>Panel admin: <code>/admin.html</code></small></p>
     </div>
   </footer>
 
-  <!-- Firebase SDK (compat) -->
+  <!-- Floating WhatsApp -->
+  <a id="whatsapp-btn" href="https://wa.me/6281234567890" target="_blank" rel="noreferrer">💬 Chat WhatsApp</a>
+
+  <!-- Firebase (compat for simple DB use) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
   <script>
-    // Firebase config (dari user)
-    var firebaseConfig = {apiKey: "AIzaSyDLfzeE9ih80Jz5qhK1Psa6TUb9F9SkacM", authDomain: "web-putraaxy-admin.firebaseapp.com", projectId: "web-putraaxy-admin", storageBucket: "web-putraaxy-admin.firebasestorage.app", messagingSenderId: "506855905778", appId: "1:506855905778:web:c7ad0557a9971873deb36b", measurementId: "G-0TB4JYPT6D"};
-
-    // init firebase
+    // --- FIREBASE CONFIG (dari kamu) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLfzeE9ih80Jz5qhK1Psa6TUb9F9SkacM",
+      authDomain: "web-putraaxy-admin.firebaseapp.com",
+      projectId: "web-putraaxy-admin",
+      storageBucket: "web-putraaxy-admin.firebasestorage.app",
+      messagingSenderId: "506855905778",
+      appId: "1:506855905778:web:c7ad0557a9971873deb36b",
+      measurementId: "G-0TB4JYPT6D"
+    };
+    // init
     firebase.initializeApp(firebaseConfig);
-    var db = firebase.database();
+    const db = firebase.database();
 
-    // default fallback data
-    var DEFAULT = {siteTitle: 'Website Responsive Animasi — Siap Deploy', brand: 'MyWeb', title: 'Selamat Datang — Website Responsive & Animasi', description: 'Contoh website ringan: HTML, CSS, JavaScript. Responsive, smooth-scroll, dan animasi saat elemen muncul.', aboutTitle: 'Tentang Website', aboutDesc: 'Halaman ini dibuat agar mudah dikembangkan. Struktur file simple — cocok untuk GitHub Pages, Netlify, atau Vercel.', accent: '#0072ff', footer: '© 2025 MyWeb — Siap deploy'};
+    // fallback default (jika DB kosong)
+    const DEFAULT = {
+      siteTitle: 'Web PutraAXY',
+      brand: 'MyWeb',
+      title: 'Selamat Datang — Website Responsive & Animasi',
+      description: 'Contoh website ringan: HTML, CSS, JavaScript. Responsive, smooth-scroll, dan animasi saat elemen muncul.',
+      aboutTitle: 'Tentang Website',
+      aboutDesc: 'Halaman ini dibuat agar mudah dikembangkan. Struktur file simple.',
+      accent: '#0072ff',
+      footer: '© 2025 MyWeb — Siap deploy',
+      whatsapp: '6281234567890',
+      email: 'contoh@email.com'
+    };
 
     function render(data){
-      var d = Object.assign({}, DEFAULT, data || {});
-      document.getElementById('site-title').textContent = d.siteTitle;
-      document.getElementById('brand-name').textContent = d.brand;
-      document.getElementById('hero-title').textContent = d.title;
-      document.getElementById('hero-desc').textContent = d.description;
-      document.getElementById('about-title').textContent = d.aboutTitle;
-      document.getElementById('about-desc').textContent = d.aboutDesc;
-      document.getElementById('footer-text').textContent = d.footer;
+      const d = Object.assign({}, DEFAULT, data || {});
+      document.title = d.siteTitle || DEFAULT.siteTitle;
+      document.getElementById('site-title')?.setAttribute('content', d.siteTitle || DEFAULT.siteTitle); // metadata (if needed)
+      document.getElementById('brand-name').textContent = d.brand || DEFAULT.brand;
+      document.getElementById('hero-title').textContent = d.title || DEFAULT.title;
+      document.getElementById('hero-desc').textContent = d.description || DEFAULT.description;
+      document.getElementById('about-title').textContent = d.aboutTitle || DEFAULT.aboutTitle;
+      document.getElementById('about-desc').textContent = d.aboutDesc || DEFAULT.aboutDesc;
+      document.getElementById('footer-text').textContent = d.footer || DEFAULT.footer;
       document.documentElement.style.setProperty('--accent', d.accent || DEFAULT.accent);
-      var btn = document.querySelector('.btn'); if(btn) btn.style.background = d.accent || DEFAULT.accent;
+      // whatsapp & email update
+      const wa = document.getElementById('whatsapp-btn'); if(wa) wa.href = 'https://wa.me/' + (d.whatsapp || DEFAULT.whatsapp);
+      const em = document.getElementById('email-link'); if(em) { em.href = 'mailto:' + (d.email || DEFAULT.email); em.textContent = d.email || DEFAULT.email; }
+      const btn = document.querySelector('.btn'); if(btn) btn.style.background = d.accent || DEFAULT.accent;
+      // title tag
+      document.querySelector('title').textContent = d.siteTitle || DEFAULT.siteTitle;
     }
 
-    // listen for changes on /siteData
-    var ref = db.ref('siteData');
-    ref.on('value', function(snap){
-      var val = snap.val();
+    // listen to DB -> /siteData
+    const ref = db.ref('siteData');
+    ref.on('value', snap => {
+      const val = snap.val();
       if(val) render(val); else render(DEFAULT);
-    }, function(err){ console.error('DB error', err); });
+    }, err => {
+      console.error('Firebase read error', err);
+      render(DEFAULT);
+    });
   </script>
 
   <script src="script.js"></script>
 </body>
 </html>
+
