@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-wrap{max-width:780px;margin:3rem auto;padding:1.25rem;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    label{display:block;margin-top:.8rem;font-weight:600}
+    input[type="text"], input[type="color"], textarea{width:100%;padding:.6rem;margin-top:.35rem;border-radius:8px;border:1px solid rgba(255,255,255,0.05);background:transparent;color:inherit}
+    .row{display:flex;gap:.6rem}
+    .row > *{flex:1}
+    .btn-primary{background:var(--accent);color:#fff;padding:.6rem .9rem;border-radius:9px;border:0;cursor:pointer}
+    .hint{color:var(--muted);font-size:.9rem}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="admin-wrap">
+      <h2 id="admin-heading">Panel Admin — Login</h2>
+      <div id="login-box">
+        <label>Password</label>
+        <input id="pw" type="password" placeholder="Masukkan password admin">
+        <p class="hint">Password default: <strong>putra123</strong></p>
+        <button id="btnLogin" class="btn-primary">Login</button>
+      </div>
+
+      <div id="editor" style="display:none;margin-top:1rem">
+        <p class="hint">Edit teks, judul, dan warna. Simpan untuk langsung update website.</p>
+
+        <label>Site Title (tag & tab)</label>
+        <input id="siteTitle" type="text" placeholder="Judul tab / site title">
+
+        <label>Brand / Nama (header)</label>
+        <input id="brand" type="text" placeholder="Nama brand">
+
+        <label>Hero Title</label>
+        <input id="title" type="text" placeholder="Judul utama">
+
+        <label>Hero Description</label>
+        <textarea id="description" rows="3"></textarea>
+
+        <label>About Title</label>
+        <input id="aboutTitle" type="text">
+
+        <label>About Description</label>
+        <textarea id="aboutDesc" rows="3"></textarea>
+
+        <div style="display:flex;gap:.6rem;align-items:center;margin-top:.6rem">
+          <div style="flex:1">
+            <label>Accent Color</label>
+            <input id="accent" type="color" value="#0072ff">
+          </div>
+          <div style="flex:1">
+            <label>Footer Text</label>
+            <input id="footer" type="text">
+          </div>
+        </div>
+
+        <div style="margin-top:1rem;display:flex;gap:.6rem">
+          <button id="btnSave" class="btn-primary">Simpan</button>
+          <button id="btnReset" class="btn-primary" style="background:#666">Reset ke default</button>
+          <button id="btnLogout" class="btn-primary" style="background:#b91c1c">Logout</button>
+        </div>
+        <p id="msg" class="hint" style="margin-top:.6rem"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+  <script>
+    // Firebase config placeholders will be replaced by server-side script
+    var firebaseConfig = {{apiKey:"AIzaSyDLfzeE9ih80Jz5qhK1Psa6TUb9F9SkacM", authDomain:"web-putraaxy-admin.firebaseapp.com", projectId:"web-putraaxy-admin", storageBucket:"web-putraaxy-admin.firebasestorage.app", messagingSenderId:"506855905778", appId:"1:506855905778:web:c7ad0557a9971873deb36b", measurementId:"G-0TB4JYPT6D"}};
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.database();
+  </script>
+
+  <script src="admin.js"></script>
+</body>
+</html>
